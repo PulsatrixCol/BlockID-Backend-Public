@@ -1,0 +1,57 @@
+<app-header [pageName]="pageName"></app-header>
+
+<ion-content>
+  <form  #electionForm="ngForm" (ngSubmit)="createElection()" >
+    <ion-row>
+      <ion-col size-lg="12" size-md="12" size-sm="12" size="12" size-xs="12">
+        <ion-list>
+          <ion-item class="item-input" color="light">
+            <ion-input id="nombreEleccion" name="nombreEleccion" 
+                        #electionName="ngModel" [(ngModel)]="nombre"
+                        
+                        required minlength="3" 
+
+                        placeholder="Nombre de la elección">
+                <div *ngIf="electionName.invalid && (electionName.dirty || electionName.touched)"
+                    class="alert alert-danger">
+                  <div *ngIf="electionName.errors.required">
+                    El nombre de la elección es obligatorio&nbsp;&nbsp;&nbsp;&nbsp;
+                  </div>
+                  <div *ngIf="electionName.errors.minlength">
+                    El nombre de la elección debe ser superior a 3 caracteres&nbsp;&nbsp;&nbsp;&nbsp;
+                  </div>
+                </div>
+            </ion-input>
+          </ion-item>
+          <ion-item class="item-input" color="light">
+            <ion-select  name="selectInst" placeholder="Seleccione una institución" [(ngModel)]="entidad" interface="action-sheet">
+              <ion-select-option *ngFor="let item of entidades" [value]="item.id"> 
+                <ion-label> {{item.nombre}}</ion-label>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item class="item-input" color="light">
+              <ion-label>Fecha y hora inicio de la elección</ion-label>
+              <ion-datetime displayFormat="D MMM H:mm" min="{{year}}" max="{{year}}" monthValues="{{lista_meses}}" value="" [(ngModel)]="fecha_inicio" name="fecha_inicio"></ion-datetime>
+          </ion-item>
+
+          <ion-item class="item-input" color="light">
+            <ion-label>Fecha y hora fin de la elección</ion-label>
+            <ion-datetime displayFormat="D MMM H:mm" min="{{year}}" max="{{year}}" monthValues="{{lista_meses}}" value=""[(ngModel)]="fecha_fin" name="fecha_fin"  ></ion-datetime>
+          </ion-item>
+    
+
+          <ion-item class="item-input" color="light">
+            <ion-textarea name="notas_front" [(ngModel)]="descripcion" placeholder="Ingrese la descripción de esta elección"></ion-textarea>
+          </ion-item>
+          <ion-item>
+            <ion-button shape="round"  (click)="createElection()" style="font-size: large; font-weight: bold;" expand="block" [disabled]="electionForm.invalid">              
+              <ion-icon name="business-outline"></ion-icon> Crear
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
